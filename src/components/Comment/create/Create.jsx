@@ -1,22 +1,18 @@
 import React from 'react'
 import { Comment, Avatar, Form, Button, List, Input } from 'antd';
 import moment from 'moment';
+import {message} from "antd/es";
+import Axios from "axios";
+import apiUrls from "../../environment";
 
 const { TextArea } = Input;
 
-const CommentList = ({ comments }) => (
-    <List
-        dataSource={comments}
-        header={`${comments.length} ${comments.length > 1 ? 'replies' : 'reply'}`}
-        itemLayout="horizontal"
-        renderItem={props => <Comment {...props} />}
-    />
-);
+
 
 const Editor = ({ onChange, onSubmit, submitting, value }) => (
     <>
         <Form.Item>
-            <TextArea rows={4} onChange={onChange} value={value} />
+            <TextArea rows={3} onChange={onChange} value={value} />
         </Form.Item>
         <Form.Item>
             <Button htmlType="submit" loading={submitting} onClick={onSubmit} type="primary">
@@ -27,36 +23,42 @@ const Editor = ({ onChange, onSubmit, submitting, value }) => (
 );
 
 class PitchCommentCreate extends React.Component {
-    state = {
-        comments: [],
-        submitting: false,
-        value: '',
-    };
+    constructor(props, context) {
+        super(props, context);
+        this.state = {
+            submitting: false,
+            value: '',
+        };
+
+    }
 
     handleSubmit = () => {
         if (!this.state.value) {
-            return;
+            return message.warn("You can not submit a blank comment",5)
         }
+        Axios.post(apiUrls.comment.create,{
+            content:this.state.value,
+            pitch_id:this.props.pitchID,
+            user_id:1
+        }).then(
+            res=> {
+                message.success("Comment posted successfully!",10)
+                this.props.onFinishedCreating(res.data)
+                console.log(res.data)
+            }
+        ).catch(err=>{
+            message.error(err.response.data.description,10)
+            console.log(err.response)
+        })
 
         this.setState({
             submitting: true,
         });
 
-        setTimeout(() => {
-            this.setState({
+        this.setState({
                 submitting: false,
                 value: '',
-                comments: [
-                    {
-                        pitch_id: 'Han Solo',
-                        avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-                        content: <p>{this.state.value}</p>,
-                        datetime: moment().fromNow(),
-                    },
-                    ...this.state.comments,
-                ],
             });
-        }, 1000);
     };
 
     handleChange = e => {
@@ -66,11 +68,10 @@ class PitchCommentCreate extends React.Component {
     };
 
     render() {
-        const { comments, submitting, value } = this.state;
+        const {submitting, value } = this.state;
 
         return (
             <>
-                {comments.length > 0 && <CommentList comments={comments} />}
                 <Comment
                     avatar={
                         <Avatar

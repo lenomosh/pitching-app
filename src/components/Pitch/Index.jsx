@@ -11,13 +11,18 @@ import PitchCommentIndex from "../Comment";
 import Axios from "axios";
 import HTMLReactParser from "html-react-parser";
 import PitchRead from "./read/read";
-
+import apiUrls from "../environment";
+export const PitchAction = ({data,onFinishedSubmit, onErrorOccurred})=>{
+    Axios.post(apiUrls.action.create,data)
+        .then(res =>onFinishedSubmit(res.data))
+        .catch(err=>onErrorOccurred(err))
+}
 const PitchIndex = ()=>{
     const [pitches, setPitches] = useState(null);
     useEffect(() => {
         if (!pitches){
-            const url = 'http://localhost:5000/api/pitch'
-            Axios.get(url)
+            Axios
+                .get(apiUrls.pitch.index)
                 .then(res=>setPitches(res.data))
                 .catch(err=>console.log(err))
         }

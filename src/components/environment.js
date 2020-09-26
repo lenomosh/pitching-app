@@ -14,7 +14,19 @@ const apiUrls = {
         read:apiUrl+'category/',
         del:apiUrl+'category/',
         index:apiUrl+'/category'
+    },
+    profile_picture:{
+        read:apiUrl+'profile_picture/',
+        create:apiUrl+'profile_picture'
+    },
+    comment:{
+        create:apiUrl+'comment'
+    },
+    action:{
+        create:apiUrl+'action',
+        del:apiUrl+'action/'
     }
+
 
 
 }
