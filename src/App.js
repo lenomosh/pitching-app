@@ -6,6 +6,7 @@ import PitchCreate from "./components/Pitch/create/Create";
 import PitchIndex from "./components/Pitch/Index";
 import UserCreate from "./components/user/create";
 import HeaderTemplate from "./components/template/front/header/header";
+import UserLogin from "./components/user/login";
 const { Header, Content, Footer } = Layout;
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
                               <Route exact path={'/'} component={PitchIndex}/>
                               <Route exact path={'/create'} component={PitchCreate}/>
                               <Route exact path={'/register'} component={UserCreate}/>
+                              <Route exact path={'/login'} component={UserLogin}/>
                           </Switch>
                       </div>
                   </div>
