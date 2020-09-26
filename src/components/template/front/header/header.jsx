@@ -1,29 +1,16 @@
 import React from 'react'
+import {Menu} from "antd";
 
 const HeaderTemplate = () =>{
 
     return(
         <div>
-            <nav className="navbar navbar-expand-md navbar-light bg-light">
-                <a href="#" className="navbar-brand">
-                    <img src="images/logo.svg" height="28" alt="CoolBrand"/>
-                </a>
-                <button type="button" className="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
-                    <span className="navbar-toggler-icon"/>
-                </button>
-
-                <div className="collapse navbar-collapse" id="navbarCollapse">
-                    <div className="navbar-nav">
-                        <a href="/home" className="nav-item nav-link active">Home</a>
-                        <a href="/home" className="nav-item nav-link">Profile</a>
-                        <a href="/home" className="nav-item nav-link">Messages</a>
-                        <a href="/homr" className="nav-item nav-link disabled" tabIndex="-1">Reports</a>
-                    </div>
-                    <div className="navbar-nav ml-auto">
-                        <a href="#" className="nav-item nav-link">Login</a>
-                    </div>
-                </div>
-            </nav>
+            <div className="logo" />
+            <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
+                <Menu.Item key="1">nav 1</Menu.Item>
+                <Menu.Item key="2">nav 2</Menu.Item>
+                <Menu.Item key="3">nav 3</Menu.Item>
+            </Menu>
         </div>
     )
 }

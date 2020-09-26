@@ -1,14 +1,14 @@
 import React, {useState} from 'react'
-import ReactQuill from "react-quill";
+import PitchCommentView from "./read/Read";
+import PitchCommentCreate from "./create/Create";
 
-const CommentIndex = ()=>{
+const PitchCommentIndex = ()=>{
     const [commentValue, setCommentValue] = useState('');
-
-
     return (
-        <div>
-            <ReactQuill theme={'snow'} onChange={setCommentValue} value={commentValue} />
+        <div className={'px-4'}>
+            <PitchCommentView/>
+            <PitchCommentCreate/>
         </div>
     )
 }
-export default CommentIndex
+export default PitchCommentIndex
