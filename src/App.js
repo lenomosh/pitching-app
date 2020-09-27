@@ -1,38 +1,28 @@
 import React from 'react';
 import './App.scss';
-import { Layout, Menu } from 'antd';
-import {Route,Switch} from "react-router-dom";
-import PitchCreate from "./components/Pitch/create/Create";
-import PitchIndex from "./components/Pitch/Index";
+import {Redirect,Route,Switch} from "react-router-dom";
 import UserCreate from "./components/user/create";
-import HeaderTemplate from "./components/template/front/header/header";
-import UserLogin from "./components/user/login";
-const { Header, Content, Footer } = Layout;
+import {connect} from "react-redux";
+import AuthHomepage from "./components/hompage/AuthHomePage";
+import PublicHomepage from "./components/hompage/PublicHomepage";
+import LoginPage from "./Pages/LoginPage/LoginPage.component";
 
-function App() {
+function App({currentUser}) {
+
   return (
       <div>
-          <Layout className="layout">
-              <Header>
-                  <HeaderTemplate/>
-              </Header>
-              <Content style={{ padding: '50px' }}>
-                  <div className="row m-auto">
-                      <div className="col-sm-6">
-                          <Switch>
-                              <Route exact path={'/'} component={PitchIndex}/>
-                              <Route exact path={'/create'} component={PitchCreate}/>
-                              <Route exact path={'/register'} component={UserCreate}/>
-                              <Route exact path={'/login'} component={UserLogin}/>
-                          </Switch>
-                      </div>
-                  </div>
-              </Content>
-              <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
-          </Layout>
+          <Switch>
+              <Route exact path={'/'}>
+                  {currentUser?AuthHomepage:PublicHomepage}
+              </Route>
+              <Route exact path={'/register'} component={UserCreate}/>
+              <Route exact path={'/login'} >
+                  {currentUser?<Redirect to={'/'}/> : <LoginPage/>}
+              </Route>
+          </Switch>
       </div>
 
   );
 }
-
-export default App;
+const mapStateToProps = ({user:{currentUser}})=>({currentUser})
+export default connect(mapStateToProps)(App);

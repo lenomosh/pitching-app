@@ -1,19 +1,13 @@
 import React,{useState,useEffect} from 'react'
-import {Avatar} from "antd";
-import {
-    UserOutlined,
-    MoreOutlined,
-    SendOutlined,
-    LikeOutlined,
-    CommentOutlined
-} from '@ant-design/icons'
-import PitchCommentIndex from "../Comment";
 import Axios from "axios";
-import HTMLReactParser from "html-react-parser";
 import PitchRead from "./read/read";
 import apiUrls from "../environment";
-export const PitchAction = ({data,onFinishedSubmit, onErrorOccurred})=>{
-    Axios.post(apiUrls.action.create,data)
+export const PitchAction = ({data,onFinishedSubmit, onErrorOccurred,access_token})=>{
+    Axios.post(apiUrls.action.create,data,{
+        headers:{
+            Authorization:`Bearer ${access_token}`
+        }
+    })
         .then(res =>onFinishedSubmit(res.data))
         .catch(err=>onErrorOccurred(err))
 }

@@ -6,3 +6,8 @@ export const setCurrentUser=user=>(
         payload:user
     }
 )
+export const logoutCurrentUser=()=>(
+    {
+        type:USER_ACTION_TYPES.LOUGOUT_USER
+    }
+)

@@ -7,11 +7,11 @@ import Button from "antd/es/button";
 import Axios from "axios";
 import apiUrls from "../environment";
 import {message} from "antd/es";
-import {useDispatch} from "react-redux";
-import USER_ACTION_TYPES from "../../redux/user/user.action.types";
+import {connect} from "react-redux";
+import {setCurrentUser} from "../../redux/user/user.actions";
 
-const UserLogin =()=>{
-    const dispatch = useDispatch()
+const UserLogin =({loginUser})=>{
+
     const onFinish = values => {
         Axios.post(apiUrls.user_login, {
             password: values.password,
@@ -21,10 +21,7 @@ const UserLogin =()=>{
             Accept:'application/json'
         }).then( res =>{
             console.log(res.data)
-            dispatch({
-                type:USER_ACTION_TYPES.SET_CURRENT_USER,
-                payload:res.data
-            })
+            loginUser(res.data)
             message.success('Login was success!',10)
         }).catch(err =>{
             message.error(err.response.data.description,10)
@@ -77,4 +74,7 @@ const UserLogin =()=>{
     )
 
 }
-export default UserLogin
+const mapDispatchToProps = (dispatch)=>(
+    {loginUser:user=>dispatch(setCurrentUser(user))}
+)
+export default connect(null,mapDispatchToProps) (UserLogin)

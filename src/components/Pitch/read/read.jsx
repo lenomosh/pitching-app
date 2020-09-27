@@ -15,12 +15,15 @@ import apiUrls from "../../environment";
 import './read.scss'
 import {PitchAction} from "../Index";
 import {message} from "antd/es";
+import {useSelector} from "react-redux";
 
 const PitchRead = ({pitch}) =>{
     const {content,author,comments,CREATED_AT,likes,dislikes} = pitch
+    const currentUser = useSelector(state=>state.user.currentUser)
     console.log(apiUrls.profile_picture.read+author.profile_picture.id)
     const handlePitchAction =data=>{
        const input ={
+           access_token:currentUser.access_token,
             data:data,
             onErrorOccurred:err=>{
                 message.error(err.response.data.description, 5)
