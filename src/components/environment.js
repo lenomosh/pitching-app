@@ -1,8 +1,13 @@
 const apiUrl = 'http://localhost:5000/api/'
+export const axiosHeader = {
+    'Accept' : 'application/json',
+    'Content-Type': 'application/json'
+}
 const apiUrls = {
     user_create:apiUrl+'auth/v1.0/register',
     user_login:apiUrl+'auth/v1.0/login',
     user_logout:apiUrl+'auth/v1.0/logout',
+    user_profile:apiUrl+'user_profile/',
     pitch:{
         create:apiUrl+'pitch',
         read:apiUrl+'pitch/',
@@ -13,7 +18,7 @@ const apiUrls = {
         create:apiUrl+'category',
         read:apiUrl+'category/',
         del:apiUrl+'category/',
-        index:apiUrl+'/category'
+        index:apiUrl+'category'
     },
     profile_picture:{
         read:apiUrl+'profile_picture/',

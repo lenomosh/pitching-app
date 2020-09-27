@@ -4,6 +4,7 @@ import moment from 'moment';
 import {message} from "antd/es";
 import Axios from "axios";
 import apiUrls from "../../environment";
+import {connect} from "react-redux";
 
 const { TextArea } = Input;
 
@@ -39,7 +40,11 @@ class PitchCommentCreate extends React.Component {
         Axios.post(apiUrls.comment.create,{
             content:this.state.value,
             pitch_id:this.props.pitchID,
-            user_id:1
+            user_id:this.props.currentUser.user.id
+        },{
+            headers:{
+                Authorization:`Bearer ${this.props.currentUser.access_token}`
+            }
         }).then(
             res=> {
                 message.success("Comment posted successfully!",10)
@@ -75,8 +80,8 @@ class PitchCommentCreate extends React.Component {
                 <Comment
                     avatar={
                         <Avatar
-                            src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                            alt="Han Solo"
+                            src={apiUrls.profile_picture.read+this.props.currentUser.user?.profile_picture?.id}
+                            alt={this.props.currentUser.user?.name}
                         />
                     }
                     content={
@@ -92,5 +97,5 @@ class PitchCommentCreate extends React.Component {
         );
     }
 }
-
-export default PitchCommentCreate
+const maptStateToProps =({user:{currentUser}})=>({currentUser})
+export default connect(maptStateToProps) (PitchCommentCreate)

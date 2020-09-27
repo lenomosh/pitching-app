@@ -4,13 +4,15 @@ import ReactQuill from "react-quill";
 import {useState} from "react";
 import {Button,Select} from "antd";
 import Axios from "axios";
-import apiUrls from "../../environment";
+import apiUrls, {axiosHeader} from "../../environment";
 import {message} from "antd/es";
 import {PlusOutlined} from '@ant-design/icons'
 import Divider from "antd/es/divider";
 import Input from "antd/es/input";
+import {useSelector} from "react-redux";
 const {Option} = Select
 const PitchCreate =()=>{
+    const currentuser = useSelector(state=>state.user.currentUser)
     const [pitchValue, setPitchValue] = useState('');
     const [categories, setCategories] = useState(null);
     const [pitchCategoryID, setPitchCategoryID] = useState('');
@@ -22,7 +24,11 @@ const PitchCreate =()=>{
 
     }, );
     const getCategories =()=>{
-        Axios.get(apiUrls.category.index)
+        Axios.get(apiUrls.category.index,{
+            headers:{
+                Authorization:`Bearer ${currentuser.access_token}`
+            }
+        })
             .then(res=>setCategories(res.data))
             .catch(err=>{
                 message.error(err.response.data.description,10)
@@ -45,11 +51,14 @@ const PitchCreate =()=>{
         Axios.post(apiUrls.pitch.create
         ,{
                 content:pitchValue,
-                user_id:1,
+                user_id:currentuser.user.id,
                 category_id:pitchCategoryID
             },
             {
-            Accept:'application/json'
+           headers: {
+               ...axiosHeader,
+               Authorization: `Bearer ${currentuser.access_token}`
+           }
             })
             .then(res=>{
                 message.success("Pitch created successfully.",10)
@@ -67,9 +76,17 @@ const PitchCreate =()=>{
         if (categories.filter(data=>data.name.toLowerCase() ===newCategory.toLowerCase()).length>0){
            return  message.error("The category you are trying to create already exist",10)
         }
-        Axios.post(apiUrls.category.create,{
+        Axios.post(
+            apiUrls.category.create,
+            {
             name:newCategory.charAt(0).toUpperCase()+newCategory.slice(1).toLowerCase()
-        })
+        },
+            {
+                headers: {
+                    ...axiosHeader,
+                    Authorization: `Bearer ${currentuser.access_token}`
+                }
+            })
             .then(res=>{
             console.log(res)
                 getCategories()

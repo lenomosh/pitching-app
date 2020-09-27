@@ -3,8 +3,6 @@ import {Comment,Avatar} from "antd";
 import apiUrls from "../../environment";
 
 const PitchCommentView =({comment})=>{
-    console.log(comment)
-
     return (
         <div>
             {comment && <Comment
@@ -12,7 +10,7 @@ const PitchCommentView =({comment})=>{
                 author={comment.author.name}
                 avatar={
                     <Avatar
-                        src={apiUrls.profile_picture.read+comment.author.profile_picture.id}
+                        src={apiUrls.profile_picture.read+comment.author?.profile_picture?.id}
                         alt={comment.author.name}
                     />
                 }

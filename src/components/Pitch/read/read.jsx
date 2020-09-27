@@ -26,10 +26,18 @@ const PitchRead = ({pitch}) =>{
            access_token:currentUser.access_token,
             data:data,
             onErrorOccurred:err=>{
-                message.error(err.response.data.description, 5)
+               let msg
+               if (err.response.data.description){
+                   msg = err.response.data.description
+               }
+               if (err.response.data.msg){
+                   msg = err.response.data.msg
+               }
+                message.error(msg, 5)
+
             },
             onFinishedSubmit:res=>{
-                message.success("Liked!", 5)
+                message.success(data.action_type===1?"Liked":"Disliked", 5)
             },
 
         }

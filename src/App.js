@@ -12,13 +12,13 @@ function App({currentUser}) {
   return (
       <div>
           <Switch>
-              <Route exact path={'/'}>
+              <Route  path={'/'}>
                   {currentUser?AuthHomepage:PublicHomepage}
               </Route>
-              <Route exact path={'/register'} component={UserCreate}/>
-              <Route exact path={'/login'} >
-                  {currentUser?<Redirect to={'/'}/> : <LoginPage/>}
-              </Route>
+              {/*<Route exact path={'/register'} component={UserCreate}/>*/}
+              {/*<Route exact path={'/login'} >*/}
+              {/*    {currentUser?<Redirect to={'/'}/> : <LoginPage/>}*/}
+              {/*</Route>*/}
           </Switch>
       </div>
 

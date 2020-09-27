@@ -1,19 +1,61 @@
 import React from 'react'
-import {Menu} from "antd";
-import {Button} from "antd/es";
 import {connect} from "react-redux";
 import {logoutCurrentUser} from "../../../../redux/user/user.actions";
+import {Link} from "react-router-dom";
+import {Avatar} from "antd";
+import apiUrls from "../../../environment";
+import Popover from "antd/es/popover";
+import Button from "antd/es/button";
+import './header.scss';
 
-const HeaderTemplate = ({logoutUser}) =>{
+const HeaderTemplate = ({logoutUser,currentUser}) =>{
 
     return(
-        <div>
-            <div className="logo" />
-            <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
-                <Menu.Item key="1">nav 1</Menu.Item>
-                <Menu.Item key="2">nav 2</Menu.Item>
-                <Menu.Item key="3"><Button onClick={logoutUser}>Logout</Button></Menu.Item>
-            </Menu>
+        <div className={`row HeaderTemplate ${currentUser && 'authUser'}`}>
+
+            <div className="col-sm-3">
+
+
+                <div className="logo">
+                    <p className="h4 font-italic">
+                        OMP
+                    </p>
+                </div>
+
+            </div>
+            <div className="col-sm-6">
+            </div>
+            <div className="col-sm-3 user-actions">
+                {currentUser?
+                    <span className={'loggedInUser'} >
+                                <Popover content={
+                                    <div>
+                                        <Button type={'link'}>
+                                        <Link to={'/profile/'+currentUser.user?.id}>Profile</Link><br/>
+                                        </Button>
+                                    <Button className={'href'} type={'link'}   onClick={logoutUser}>Logout</Button>
+                                </div>}>
+                                <Avatar gap={4} size={'large'} src={apiUrls.profile_picture.read+currentUser?.user?.profile_picture?.id}/>
+                                <span className={'username'}>{currentUser.user.username}</span>
+                                </Popover>
+                            </span>
+                    :
+                    <span className="loggedOutUser">
+                        <div className="links-wrapper">
+                            <div className="link">
+
+                    <Link to={'/login'}>Login</Link>
+                            </div>
+                            <div className="link">
+                        <Link to={'/register'}>SignUp</Link>
+
+                            </div>
+
+                        </div>
+                    </span>
+                }
+            </div>
+
         </div>
     )
 }
@@ -21,5 +63,5 @@ const HeaderTemplate = ({logoutUser}) =>{
 const mapDispatchToProps = (dispatch)=>(
     {logoutUser:()=>dispatch(logoutCurrentUser())}
 )
-// const mapStateToProps = ({user: {currentUser}})=>({currentUser})
-export default connect(null,mapDispatchToProps) (HeaderTemplate)
+const mapStateToProps = ({user: {currentUser}})=>({currentUser})
+export default connect(mapStateToProps,mapDispatchToProps) (HeaderTemplate)
