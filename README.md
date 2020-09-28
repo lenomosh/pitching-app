@@ -1,14 +1,15 @@
-## Pitchip App Flask
+# Pitching App Flask
+
+## Description 
+
+A pitch posting social site for the youth. This application takes advantage of Pythons Flask Microframework and react. 
 
 An app that allows people to add one minute pitches, then other members can upvote, comment or downvote the pitch 
 
-## THE NEWS COLLECTOR 
+### Author
+
 #### [Lennox Omondi](https://linkedin.com/in/lenomosh)
 
-
-
-## Description 
-A news website that searches for trending, important and relevant news to a user based on an individual user's need.
 
 ## User Stories
 As user I would like to:
@@ -21,8 +22,6 @@ As user I would like to:
 * As a user, I would like to comment on the different pitches and leave feedback.
 * As a user, I would like to submit a pitch in any category.
 * As a user, I would like to view the different categories.
-
-
 
 
 ## Setup Instructions
