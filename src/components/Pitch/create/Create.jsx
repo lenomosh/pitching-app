@@ -10,6 +10,7 @@ import {PlusOutlined} from '@ant-design/icons'
 import Divider from "antd/es/divider";
 import Input from "antd/es/input";
 import {useSelector} from "react-redux";
+import Spin from "antd/es/spin";
 const {Option} = Select
 const PitchCreate =()=>{
     const currentuser = useSelector(state=>state.user.currentUser)
@@ -17,6 +18,7 @@ const PitchCreate =()=>{
     const [categories, setCategories] = useState(null);
     const [pitchCategoryID, setPitchCategoryID] = useState('');
     const [newCategory, setNewCategory] = useState('');
+    const [loading, setLoading] = useState(false);
     useEffect(() => {
         if (!categories){
             getCategories()
@@ -24,15 +26,20 @@ const PitchCreate =()=>{
 
     }, );
     const getCategories =()=>{
+        setLoading(true)
         Axios.get(apiUrls.category.index,{
             headers:{
                 Authorization:`Bearer ${currentuser.access_token}`
             }
         })
-            .then(res=>setCategories(res.data))
+            .then(res=> {
+                setLoading(false)
+                setCategories(res.data)
+            })
             .catch(err=>{
                 message.error(err.response.data.description,10)
-                console.log(err.response)
+                setLoading(false)
+                // console.log(err.response)
             })
     }
 
@@ -43,11 +50,12 @@ const PitchCreate =()=>{
         if (!pitchValue){
             return message.info("You really want to submit a blank pitch? Wow",6)
         }
-        console.log(pitchValue.length)
-        console.log(pitchValue)
+        // console.log(pitchValue.length)
+        // console.log(pitchValue)
         if (pitchValue.length<9){
-            return message.warn("Seriously, your pitch is too short. :XD")
+            return message.warn("Seriously, your pitch is too short. :XD",5)
         }
+        setLoading(true)
         Axios.post(apiUrls.pitch.create
         ,{
                 content:pitchValue,
@@ -61,21 +69,30 @@ const PitchCreate =()=>{
            }
             })
             .then(res=>{
-                message.success("Pitch created successfully.",10)
+                message.success("Pitch created successfully.",5)
                 setPitchCategoryID('')
                 setPitchValue('')
-                console.log(res.data)
+                setLoading(false)
+                // console.log(res.data)
         })
             .catch(err=>{
-                message.error(err.response.data.description,10)
-                console.log(err)
+
+                if (err.response?.status===500){
+                    message.error("Looks like your pitch is too long!",5)
+                }
+                else{
+
+                    message.error(err.response.data.description,10)
+                }
+                setLoading(false)
         })
     }
 
     const createCategory=()=> {
         if (categories.filter(data=>data.name.toLowerCase() ===newCategory.toLowerCase()).length>0){
-           return  message.error("The category you are trying to create already exist",10)
+           return  message.error("The category you are trying to create already exists",5)
         }
+        setLoading(true)
         Axios.post(
             apiUrls.category.create,
             {
@@ -88,19 +105,19 @@ const PitchCreate =()=>{
                 }
             })
             .then(res=>{
-            console.log(res)
+                setLoading(false)
                 getCategories()
-            return message.success("Category created successfully!",10)
+            return message.success("Category created successfully!",5)
 
         })
             .catch(err=>{
-                console.log(err.response)
-                return  message.error(err.response.data.description,10)
+                setLoading(false)
+                return  message.error(err.response.data.description,5)
         })
     }
 
     return (
-        <div>
+        <Spin spinning={loading}>
             <div className="card">
                 <div className="card-body">
                     <p>Category:</p>
@@ -114,12 +131,13 @@ const PitchCreate =()=>{
                                 <div style={{ display: 'flex', flexWrap: 'nowrap', padding: 8 }}>
                                     <Input placeholder={"New category"} style={{ flex: 'auto' }} value={newCategory} onChange={({target:{value}})=>setNewCategory(value)} />
                                     {newCategory&& newCategory.length>2 &&
-                                    <a
+                                    <Button
+                                        type={"link"}
                                         style={{ flex: 'none', padding: '8px', display: 'block', cursor: 'pointer' }}
                                         onClick={createCategory}
                                     >
                                         <PlusOutlined /> Add item
-                                    </a>}
+                                    </Button>}
                                 </div>
                             </div>
                         )}
@@ -140,7 +158,7 @@ const PitchCreate =()=>{
                 </div>
             </div>
 
-        </div>
+        </Spin>
     )
 }
 export default  PitchCreate

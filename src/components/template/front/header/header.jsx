@@ -18,12 +18,25 @@ const HeaderTemplate = ({logoutUser,currentUser}) =>{
 
                 <div className="logo">
                     <p className="h4 font-italic">
-                        OMP
+                        <Link to={'/'}>
+                            OMP
+                        </Link>
                     </p>
                 </div>
 
             </div>
             <div className="col-sm-6">
+                {currentUser && <div className={'links-wrapper float-left text-black'}>
+
+                    <div className="link">
+                        <Link to={'/'}>Home</Link>
+                    </div>
+
+                    <div className="link">
+                        <Link to={'/create'}>Post New Pitch</Link>
+                    </div>
+
+                </div>}
             </div>
             <div className="col-sm-3 user-actions">
                 {currentUser?
@@ -42,6 +55,10 @@ const HeaderTemplate = ({logoutUser,currentUser}) =>{
                     :
                     <span className="loggedOutUser">
                         <div className="links-wrapper">
+                            <div className="link">
+
+                    <Link to={'/'}>Home</Link>
+                            </div>
                             <div className="link">
 
                     <Link to={'/login'}>Login</Link>

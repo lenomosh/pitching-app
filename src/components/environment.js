@@ -1,4 +1,4 @@
-const apiUrl = 'http://localhost:5000/api/'
+const apiUrl = 'https://flask-pitching-app-api.herokuapp.com/api/'
 export const axiosHeader = {
     'Accept' : 'application/json',
     'Content-Type': 'application/json'

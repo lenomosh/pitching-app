@@ -19,14 +19,18 @@
   .user-actions{
     margin: auto;
   }
-  .loggedOutUser{
-    .links-wrapper{
-      display: flex;
-      justify-content: space-between;
-      .link{
-        margin-left: 20px;
+  .links-wrapper{
+    display: flex;
+    justify-content: space-between;
+    color: black ;
+    .link{
+      a{
+        color: black;
       }
+      margin-left: 20px;
     }
+  }
+  .loggedOutUser{
   }
   .loggedInUser,.loggedOutUser{
     cursor: pointer;

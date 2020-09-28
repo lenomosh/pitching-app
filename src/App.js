@@ -1,25 +1,16 @@
 import React from 'react';
 import './App.scss';
-import {Redirect,Route,Switch} from "react-router-dom";
-import UserCreate from "./components/user/create";
+import {Route,Switch,Redirect} from "react-router-dom";
 import {connect} from "react-redux";
 import AuthHomepage from "./components/hompage/AuthHomePage";
 import PublicHomepage from "./components/hompage/PublicHomepage";
-import LoginPage from "./Pages/LoginPage/LoginPage.component";
+import PageNotFound from "./Pages/PageNotFound/PageNotFound";
 
 function App({currentUser}) {
 
   return (
       <div>
-          <Switch>
-              <Route  path={'/'}>
-                  {currentUser?AuthHomepage:PublicHomepage}
-              </Route>
-              {/*<Route exact path={'/register'} component={UserCreate}/>*/}
-              {/*<Route exact path={'/login'} >*/}
-              {/*    {currentUser?<Redirect to={'/'}/> : <LoginPage/>}*/}
-              {/*</Route>*/}
-          </Switch>
+              <Route  path={'/'} render={()=>currentUser?<AuthHomepage />:<PublicHomepage/>}/>
       </div>
 
   );

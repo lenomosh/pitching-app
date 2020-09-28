@@ -3,6 +3,7 @@ import Axios from "axios";
 import PitchRead from "./read/read";
 import apiUrls, {axiosHeader} from "../environment";
 import {connect} from "react-redux";
+import {Spin} from "antd";
 export const PitchAction = ({data,onFinishedSubmit, onErrorOccurred,access_token})=>{
     Axios.post(apiUrls.action.create,data,{
         headers:{
@@ -16,8 +17,11 @@ export const PitchAction = ({data,onFinishedSubmit, onErrorOccurred,access_token
 
 const PitchIndex = ({currentUser})=>{
     const [pitches, setPitches] = useState(null);
+    const [loading, setLoading] = useState(false);
+
     useEffect(() => {
         if (!pitches){
+            setLoading(true)
             Axios
                 .get(apiUrls.pitch.index,{
                     headers:{
@@ -25,17 +29,23 @@ const PitchIndex = ({currentUser})=>{
                         Authorization:'Bearer '+ currentUser.access_token
                     }
                 })
-                .then(res=>setPitches(res.data))
-                .catch(err=>console.log(err))
+                .then(res=> {
+                    setPitches(res.data)
+                    setLoading(false)
+                })
+                .catch(err=> {
+                    setLoading(false)
+                    // console.log(err)
+                })
         }
     }, );
-    console.log('Pitchtes from pitch index',pitches)
+    // console.log('Pitchtes from pitch index',pitches)
 
     return (
-        <div className={'pitchIndex'}>
+        <Spin spinning={loading} className={'pitchIndex'}>
             {pitches && pitches.map(pitch=><PitchRead key={pitch.id} pitch ={pitch}/>
             )}
-        </div>
+        </Spin>
     )
 }
 const mapStateToProps =({user:{currentUser}})=>({currentUser})

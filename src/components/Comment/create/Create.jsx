@@ -1,10 +1,10 @@
 import React from 'react'
-import { Comment, Avatar, Form, Button, List, Input } from 'antd';
-import moment from 'moment';
+import { Comment, Avatar, Form, Button, Input } from 'antd';
 import {message} from "antd/es";
 import Axios from "axios";
 import apiUrls from "../../environment";
 import {connect} from "react-redux";
+import Spin from "antd/es/spin";
 
 const { TextArea } = Input;
 
@@ -29,6 +29,7 @@ class PitchCommentCreate extends React.Component {
         this.state = {
             submitting: false,
             value: '',
+            loading:false
         };
 
     }
@@ -37,6 +38,7 @@ class PitchCommentCreate extends React.Component {
         if (!this.state.value) {
             return message.warn("You can not submit a blank comment",5)
         }
+        this.setState({loading:true})
         Axios.post(apiUrls.comment.create,{
             content:this.state.value,
             pitch_id:this.props.pitchID,
@@ -47,19 +49,18 @@ class PitchCommentCreate extends React.Component {
             }
         }).then(
             res=> {
-                message.success("Comment posted successfully!",10)
+                message.success("Comment posted successfully!",5)
                 this.props.onFinishedCreating(res.data)
-                console.log(res.data)
+                this.setState({loading:false})
+
+                // console.log(res.data)
             }
         ).catch(err=>{
-            message.error(err.response.data.description,10)
-            console.log(err.response)
+            message.error(err.response.data.description,5)
+            // console.log(err.response)
+            this.setState({loading:true})
+
         })
-
-        this.setState({
-            submitting: true,
-        });
-
         this.setState({
                 submitting: false,
                 value: '',
@@ -73,10 +74,10 @@ class PitchCommentCreate extends React.Component {
     };
 
     render() {
-        const {submitting, value } = this.state;
+        const {submitting, value,loading } = this.state;
 
         return (
-            <>
+            <Spin spinning={loading}>
                 <Comment
                     avatar={
                         <Avatar
@@ -88,14 +89,14 @@ class PitchCommentCreate extends React.Component {
                         <Editor
                             onChange={this.handleChange}
                             onSubmit={this.handleSubmit}
-                            submitting={submitting}
+                            submitting={loading}
                             value={value}
                         />
                     }
                 />
-            </>
+            </Spin>
         );
     }
 }
-const maptStateToProps =({user:{currentUser}})=>({currentUser})
-export default connect(maptStateToProps) (PitchCommentCreate)
+const mapStateToProps =({user:{currentUser}})=>({currentUser})
+export default connect(mapStateToProps) (PitchCommentCreate)
