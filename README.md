@@ -1,68 +1,70 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Pitchip App Flask
 
-## Available Scripts
+An app that allows people to add one minute pitches, then other members can upvote, comment or downvote the pitch 
 
-In the project directory, you can run:
+## THE NEWS COLLECTOR 
+#### [Lennox Omondi](https://linkedin.com/in/lenomosh)
 
-### `yarn start`
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+## Description 
+A news website that searches for trending, important and relevant news to a user based on an individual user's need.
 
-### `yarn test`
+## User Stories
+As user I would like to:
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+* As a user, I would like to see the pitches other people have posted.
+* As a user, I would like to vote on the pitch they liked and give it a downvote or upvote.
+* As a user, I would like to be signed in for me to leave a comment
+* As a user, I would like to receive a welcoming email once I sign up.
+* As a user, I would like to view the pitches I have created in my profile page.
+* As a user, I would like to comment on the different pitches and leave feedback.
+* As a user, I would like to submit a pitch in any category.
+* As a user, I would like to view the different categories.
 
-### `yarn build`
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Setup Instructions
+### React Setup Instructions
+- create a new directory
+- `git init` and run `git remote add origin git@github.com:lenomosh/pitching-app.git` id you are using SSH or `https://github.com/lenomosh/pitching-app.git`
+- `git pull origin front`
+- run `yarn` or `npm install`
+- finally serve via `yarn start` or `npm start`
 
-### `yarn eject`
+### Flask Setup Instruction
+- create a new directory
+- `git init` and run `git remote add origin git@github.com:lenomosh/pitching-app.git` id you are using SSH or `https://github.com/lenomosh/pitching-app.git`
+- `git pull origin back`
+- From the project directory run `conda create --prefix=./env` or `python -m venv virtual`
+- Run `source activate ./env` for conda or `source virtual/bin/activate`
+- Run `pip install -r requirements.txt`
+- open `run.py` and change `create_app` argument to `development`
+- run `export EMAIL_USER='your_username'`
+- run `export EMAIL_PASSWORD='your_email_password'`
+- if you wish to run the app on production, you have to export the database url by running `export DATABASE_URL='your_database_url'`
+- run the app either via `flask run` or `python run.py runserver`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## LICENSE
+[![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Copyright (c) 2020 Lennox Omondi
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
