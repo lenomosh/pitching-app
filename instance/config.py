@@ -30,10 +30,19 @@ class DevConfig(Config):
 class ProdConfig(Config):
     DEBUG = False
     DEVELOPMENT = False
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
+    SQLALCHEMY_DATABASE_URL = os.environ.get('DATABASE_URL')
+
+
+class TestConfig(Config):
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://moringa:root@localhost/pitching_app_test'
+    DEBUG = True
+    TESTING = True
+    MAIL_USERNAME = 'reduzerkenya@gmail.com'
+    MAIL_PASSWORD = "os.environ['EMAIL_PASSWORD']"
 
 
 config_options = {
     'development': DevConfig,
-    'production': ProdConfig
+    'production': ProdConfig,
+    'test': TestConfig
 }

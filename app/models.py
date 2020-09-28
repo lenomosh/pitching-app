@@ -15,9 +15,10 @@ from sqlalchemy_serializer import SerializerMixin
 from flask_login import UserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer, BadSignature, SignatureExpired
 from flask import current_app
-from werkzeug.security import generate_password_hash,check_password_hash
-from flask_jwt_extended import create_access_token,decode_token,create_refresh_token
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_jwt_extended import create_access_token, decode_token, create_refresh_token
 from datetime import timedelta
+
 
 class Common(SerializerMixin):
     id = Column(
@@ -132,13 +133,15 @@ class User(Model, Common, UserMixin):
         lazy='subquery',
         uselist=False
     )
-    def generate_refresh_token(self,expiration=30):
-        return create_refresh_token(identity=self.id,expires_delta=timedelta(minutes=expiration))
+
+    def generate_refresh_token(self, expiration=30):
+        return create_refresh_token(identity=self.id, expires_delta=timedelta(minutes=expiration))
+
     def hash_password(self, password):
         self.password = generate_password_hash(password)
 
     def verify_password(self, password):
-        return check_password_hash(self.password,password)
+        return check_password_hash(self.password, password)
 
     def generate_auth_token(self, expiration=30):
         return create_access_token(

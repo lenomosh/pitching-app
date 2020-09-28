@@ -176,14 +176,14 @@ def category_index():
 @jwt_required
 def category_read(category_id):
     category = Category.query.get(category_id)
-    pitches =[]
+    pitches = []
     for pitch in category.pitches:
         likes = Action.query.filter_by(action_type=1, pitch_id=pitch.id).count()
         dislikes = Action.query.filter_by(action_type=0, pitch_id=pitch.id).count()
         pitch = dict(**pitch.to_dict(), likes=likes, dislikes=dislikes)
         pitches.append(pitch)
     # category['pitches'] = pitches
-    category_json =dict(name=category.name,CREATED_AT=category.CREATED_AT,id=category.id,pitches=pitches)
+    category_json = dict(name=category.name, CREATED_AT=category.CREATED_AT, id=category.id, pitches=pitches)
     return jsonify(category_json)
 
 
@@ -250,6 +250,11 @@ def load_user(user_id):
         dislikes = Action.query.filter_by(action_type=0, pitch_id=pitch.id).count()
         pitch = dict(**pitch.to_dict(), likes=likes, dislikes=dislikes)
         json_pitches.append(pitch)
-    user_clone = user.to_dict(only=("name", "id", "CREATED_AT", "profile_picture.id","username",))
+    user_clone = user.to_dict(only=("name", "id", "CREATED_AT", "profile_picture.id", "username",))
     user_clone['pitches'] = json_pitches
     return jsonify(user_clone)
+
+
+@api.route('/healthy')
+def healthy():
+    return jsonify('healthy'), 200
